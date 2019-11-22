@@ -1,0 +1,16 @@
+{% extends 'entry/index.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container" style="margin-top:70px">
+    
+    {% if token %}
+    <div style="text-align: center;">
+        <p>Below is your token for today's meeting. Kindly note it down and Just fill it when you checkout</p>
+        <H1 style="color:lime;">{{token}}</H1>
+    </div>
+
+
+    {% endif %}
+</div>
+{% endblock %}
