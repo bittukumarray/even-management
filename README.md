@@ -2,7 +2,7 @@
 
 # home page url is :-- localhost:8000/entry/
 
-**There are four section 1.home page, 2.host registration, 3.guest checkin, 4.guest checkout**
+**There are four sections 1.home page, 2.host registration, 3.guest checkin, 4.guest checkout**
 
 **1.host registration is for the registration for host, they will have to provide name, email, phone, address**
 
