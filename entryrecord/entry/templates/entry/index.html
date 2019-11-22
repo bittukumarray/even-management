@@ -30,6 +30,14 @@
         <h3 style="text-align: center;">For registration purpose see the Navbar</h3>
 
     </div>
+    {% if messages %}
+    {% for message in messages %}
+    <div style="text-align: center;">
+        <p style="color:rgb(0,255,0)">{{ message }}</p>
+        <p style="margin-top:20px"></p>
+    </div>
+    {% endfor %}
+    {% endif %}
     {% endblock %}
 
 </body>

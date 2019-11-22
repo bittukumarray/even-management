@@ -32,28 +32,32 @@ def guest_checkout(request):
             messages.error(
                 request, 'Invalid token')
             return render(request, 'entry/guest_checkout.html',)
+        try:
+            context = {
+                "email": formData.email,
+                'name': formData.name,
+                'phone': formData.phone_number,
+                'check_in': formData.check_in,
+                'check_out': formData.check_out,
+                'hostname': formData.host.name,
+                'address_visited': formData.host.event_address,
+            }
+            print(context)
+            subject = 'Event management Guest Details'
+            message = render_to_string(
+                'entry/guest_email.html', context)
+            text_content = strip_tags(message)
+            to_email = formData.email
+            email = EmailMessage(
+                subject, text_content, to=[to_email]
+            )
+            email.send()
 
-        context = {
-            "email": formData.email,
-            'name': formData.name,
-            'phone': formData.phone_number,
-            'check_in': formData.check_in,
-            'check_out': formData.check_out,
-            'hostname': formData.host.name,
-            'address_visited': formData.host.event_address,
-        }
-        print(context)
-        subject = 'Event management Guest Details'
-        message = render_to_string(
-            'entry/guest_email.html', context)
-        text_content = strip_tags(message)
-        to_email = formData.email
-        email = EmailMessage(
-            subject, text_content, to=[to_email]
-        )
-        email.send()
+            return render(request, 'entry/on_checked_out.html',)
+        except:
+            messages.error(
+                request, 'Some error occured!!')
 
-        return render(request, 'entry/on_checked_out.html',)
 
     return render(request, 'entry/guest_checkout.html',)
 
@@ -73,24 +77,29 @@ def guest_entry(request):
             data.token = token
             data.save()
             print(formData.check_in)
-            context = {
-                "email": form_data.cleaned_data.get('email'),
-                'name': form_data.cleaned_data.get('name'),
-                'phone': form_data.cleaned_data.get('phone_number'),
-                'check_in': formData.check_in,
-            }
-            subject = 'Event management Guest Details'
-            message = render_to_string(
-                'entry/host_email.html', context)
-            text_content = strip_tags(message)
-            host = form_data.cleaned_data.get('host')
-            to_email = host.email
-            email = EmailMessage(
-                subject, text_content, to=[to_email]
-            )
-            email.send()
+            try:
+                context = {
+                    "email": form_data.cleaned_data.get('email'),
+                    'name': form_data.cleaned_data.get('name'),
+                    'phone': form_data.cleaned_data.get('phone_number'),
+                    'check_in': formData.check_in,
+                }
+                subject = 'Event management Guest Details'
+                message = render_to_string(
+                    'entry/host_email.html', context)
+                text_content = strip_tags(message)
+                host = form_data.cleaned_data.get('host')
+                to_email = host.email
+                email = EmailMessage(
+                    subject, text_content, to=[to_email]
+                )
+                email.send()
 
-            return render(request, 'entry/on_success_guest.html', {'token': token})
+                return render(request, 'entry/on_success_guest.html', {'token': token})
+            except:
+                messages.error(
+                request, 'Some error occured!!')
+
 
         else:
             print("form data invalid")
@@ -109,7 +118,9 @@ def host_entry(request):
 
         if form_data.is_valid():
             formData = form_data.save(commit=True)
-
+            messages.error(
+                request, 'Host Registered successfully!!')
+            return render(request, "entry/index.html",)
         else:
             print("form data invalid")
             messages.error(
