@@ -8,10 +8,13 @@ from django.utils.html import strip_tags
 from .generateuiniquetoken import generate
 from .models import *
 import datetime
+from twilio.rest import Client
 
 # Create your views here.
 from django.http import HttpResponse
 
+account_sid = 'AC9938a45f91df1b11a857b0c79f21f1b2'
+auth_token = 'd3cc48faee49b6da201622cd72951106'
 
 def index(request):
     return render(request, "entry/index.html",)
@@ -42,7 +45,8 @@ def guest_checkout(request):
                 'hostname': formData.host.name,
                 'address_visited': formData.host.event_address,
             }
-            print(context)
+            sms = '\nYour details of meeting:--\nEmail --'+ str(formData.email)+ '\nName --' + str(formData.name)+'\nphone --'+ str(formData.phone_number) +'\ncheck_in time --'+ str(formData.check_in) + '\ncheck_out time --'+ str(formData.check_out) + '\nhostname --' + str(formData.host.name) + '\naddress_visited --'+ str(formData.host.event_address)
+            # print(context)
             subject = 'Event management Guest Details'
             message = render_to_string(
                 'entry/guest_email.html', context)
@@ -52,6 +56,18 @@ def guest_checkout(request):
                 subject, text_content, to=[to_email]
             )
             email.send()
+            client = Client(account_sid, auth_token)
+            try:
+                message = client.messages.create(
+                                body=sms,
+                                from_='+14405700753',
+                                to=formData.phone_number
+                            )
+            except:
+                messages.error(
+                request, 'Email sent but, phone SMS could not send, it seems the phone was not in the desire format')
+                
+
 
             return render(request, 'entry/on_checked_out.html',)
         except:
@@ -64,11 +80,11 @@ def guest_checkout(request):
 
 def guest_entry(request):
     guestform = GuestForm()
-
+    
     if request.method == "POST":
 
         form_data = GuestForm(request.POST)
-        print(form_data)
+        # print(form_data)
 
         if form_data.is_valid():
             token = generate()
@@ -78,6 +94,7 @@ def guest_entry(request):
             data.save()
             print(formData.check_in)
             try:
+                print("1st")
                 context = {
                     "email": form_data.cleaned_data.get('email'),
                     'name': form_data.cleaned_data.get('name'),
@@ -95,7 +112,19 @@ def guest_entry(request):
                 )
                 email.send()
 
-                return render(request, 'entry/on_success_guest.html', {'token': token})
+                sms = '\nGuest details of meeting:--\nEmail --'+ str(context['email'])+ '\nName --' + str(context['name'])+'\nphone --'+ str(context['phone']) +'\ncheck_in time --'+ str(context['check_in'])
+                client = Client(account_sid, auth_token)
+                print(host.phone_number)
+                try:
+                    message = client.messages.create(
+                                    body=sms,
+                                    from_='+14405700753',
+                                    to=host.phone_number
+                                )
+                except:
+                    messages.error(
+                    request, 'SMS could not send, it seems the phone was not in the desire format')
+                return render(request,'entry/on_success_guest.html', {'token': token})
             except:
                 messages.error(
                 request, 'Some error occured!!')
@@ -104,13 +133,14 @@ def guest_entry(request):
         else:
             print("form data invalid")
             messages.error(
-                request, 'Phone number must have to be 9 to 15 digits')
+                request, 'Error occured!! Your Phone number must have to be 9 to 15 digits with country code i.e +917689767689')
 
     return render(request, 'entry/guest_entry.html', {'guest_form': guestform})
 
 
 def host_entry(request):
     hostform = HostForm()
+
 
     if request.method == "POST":
 
@@ -124,6 +154,6 @@ def host_entry(request):
         else:
             print("form data invalid")
             messages.error(
-                request, 'Phone number must have to be 9 to 15 digits')
+                request, 'Erro Occured!! Your Phone number must includes country code otherwise(9 to 15 digits) while checkout you will not get SMS on phone i.e +917689767689')
 
     return render(request, 'entry/host_entry.html', {'host_form': hostform})

@@ -7,7 +7,17 @@
     <div style="text-align: center;">
         <p>You have successfully checked out!!</p>
         
+        
     </div>
+    {% if messages %}
+                {% for message in messages %}
+                <div style="text-align: center;">
+                    <p>{{message}}</p>
+                    
+                    
+                </div>
+                {% endfor %}
+    {% endif %}
 
 
 </div>
