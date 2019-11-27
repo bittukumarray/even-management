@@ -13,8 +13,8 @@ from twilio.rest import Client
 # Create your views here.
 from django.http import HttpResponse
 
-account_sid = 'AC9938a45f91df1b11a857b0c79f21f1b2'
-auth_token = 'd3cc48faee49b6da201622cd72951106'
+account_sid = 'YOUR TWILIO ACCOUNT SID'
+auth_token = 'YOUR TWILIO AUTH TOKEN'
 
 def index(request):
     return render(request, "entry/index.html",)
