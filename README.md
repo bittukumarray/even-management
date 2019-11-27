@@ -1,47 +1,72 @@
-# even-management
+URLs:----
 
-# home page url is :-- localhost:8000/entry/
+```
+http://localhost:8000/entry/
+```
 
-**There are four sections 1.home page, 2.host registration, 3.guest checkin, 4.guest checkout**
-# 
-**1.host registration is for the registration for host, they will have to provide name, email, phone, address**
-# 
-**2.guest checkin is for guest checkin, when guest checks in an email will be sent to the corresponding host and a token will be generated to checkout. this token is needed for checkout**
-# 
-**3.guest checkout is for checking out after meeting is over. guest have to submit the token that he got while checking in and then an email will be triggered to the person(guest) with all details like name, email, phone, hostname, checkin, checkout and address of host.**
+This is the Landing page for this system.
 
-# Here checkin and checkout times will be caught automatically user don't have to submit it manually.
+```
+http://localhost:8000/entry/host/
+```
 
-**I have created an unique token generator function each time of length 7 character, guest needs to submit it while chicking out and the system will verify him**
+This is the Host registration page. Here Host will enter his details and submit the form, after successful registration it will show the successful registration message.
 
+```
+http://localhost:8000/entry/checkin/
+```
 
-# Working of SMS and email service:---
+This is for Guest check in. Here Guest will select the host from the list of all the hosts and fill the form. After successful registration one mail and one SMS will be send to corresponding host with user's details, and it will generate a token for the guest to use it while check out. That is the guest will have to only fill the token while checking out and the system will verify him/her and then send all the required details to the host through both phone SMS and Email.
 
-**I have used twilio SMS service and it is on free trial mode so it is sending only message to one number ie +917250073079 because it is verified**
-# 
+The Token is of length 7 characters and it is unique, I have created my own unique token generator function.
 
-**So if you want to check with your number you have to create an account on twilio and then have to put your accound_sid and auth_token**
-# 
+```
+http://localhost:8000/entry/checkout/
+```
 
-**Also it needs the number must have country code**
-
-# Installing twilio:--
-
-**pip3 install twilio**
-
-# Requirements:---
-# 
-**Django version 2**
-# 
-**twilio for phone SMS**
-# 
-**and use your gmail acount instead of mine, and also your twilio account credentials instead of mine**
-# 
-**For adding email, just put your email and password instead of mine in settings.py file**
-# 
-**For using your twilio credentials just put your accound_sid and auth_token instead of mine in viwes.py in entry app and that's it, you can test it.**
+This page is for Check out. The guest  will have to only submit the token which was given to him/her while checking in and all the guest's details including host name, and address will be sent out to the guest through both Email and phone SMS. 
 
 
-**I have provided my all credentials only for this internship purpose**
 
-**If the guest does not provide the phone number with country code then he will not get SMS while checking out but he will get mail anyway**
+REQUIREMENTS:--
+
+- Django version 2.x i.e greater than 2.
+- Python 3.6
+- Twilio :-- for Phone SMS
+- SMPT server setup :-- for Email sending
+
+
+
+INSTALLATION OF REQUIREMENTS:--  on ubuntu 18.04
+
+​	   For Phone SMS
+
+- ```
+  pip3 install twilio 
+  ```
+
+  Django installation
+
+- ```
+  sudo apt install python3-django
+  ```
+
+
+
+For Twilio to work on your machine:
+
+1. First of all install twilio on your machine by the above given command (on ubuntu)
+2. Buy a number on twilio website so that you can use it to send SMS on any number which are verified on twilio(on trial version, because I used only trial version of it)
+3. Then Set these two things in "entryrecord.settings.py"
+    	1. account_sid = "your twilio account_sid"
+    	2. auth_token = "Your twilio auth_token"
+
+I have provided my gmail and password only for this internship purpose.
+
+Type :--   "python3 manage.py runserver" in the "entryrecord directory" on terminal to run the project locally on your machine. 
+
+
+
+I have tried my best to explain you all the things which are necessary to run this system.
+
+Thank You. 

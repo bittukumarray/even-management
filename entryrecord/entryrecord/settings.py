@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+account_sid = 'YOUR TWILIO ACCOUNT SID'
+auth_token = 'YOUR TWILIO AUTH_TOKEN'
 # Application definition
 
 INSTALLED_APPS = [

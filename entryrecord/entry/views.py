@@ -9,12 +9,10 @@ from .generateuiniquetoken import generate
 from .models import *
 import datetime
 from twilio.rest import Client
+from entryrecord.settings import account_sid, auth_token
 
 # Create your views here.
 from django.http import HttpResponse
-
-account_sid = 'AC9938a45f91df1b11a857b0c79f21f1b2'
-auth_token = 'd3cc48faee49b6da201622cd72951106'
 
 def index(request):
     return render(request, "entry/index.html",)
