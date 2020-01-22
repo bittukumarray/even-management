@@ -127,7 +127,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'rayb30909@gmail.com'
-EMAIL_HOST_PASSWORD = "1118209bittu"
+EMAIL_HOST_PASSWORD = "password"
 
 
 # Static files (CSS, JavaScript, Images)
