@@ -61,7 +61,7 @@ For Twilio to work on your machine:
     	1. account_sid = "your twilio account_sid"
     	2. auth_token = "Your twilio auth_token"
 
-I have provided my gmail and password only for this internship purpose.
+Enter your email and password in "entryrecord.settings.py" in place of  "email" and "password".
 
 Type :--   "python3 manage.py runserver" in the "entryrecord directory" on terminal to run the project locally on your machine. 
 
